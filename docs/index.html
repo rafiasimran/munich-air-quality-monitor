@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Munich Air Quality Monitor</title>
+<meta name="description" content="Daily air-quality and weather data for Munich, with automated data-quality checks.">
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--ink:#1d1d1b;--ink2:#5c5c57;--muted:#8a8a84;--line:#e4e4df;--accent:#2a6fdb;--ref:#c2410c;--good:#15803d;--warn:#b45309;--bad:#b91c1c}
+@media (prefers-color-scheme:dark){:root{--bg:#141413;--card:#1e1e1c;--ink:#f1f1ee;--ink2:#b5b5ae;--muted:#85857f;--line:#33332f;--accent:#6ea0f0;--ref:#f08a4b;--good:#4ade80;--warn:#fbbf24;--bad:#f87171}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1040px;margin:0 auto;padding:32px 16px 48px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:17px;margin:0 0 12px}
+.sub{color:var(--ink2);margin:0 0 24px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.tile .label{color:var(--ink2);font-size:13px}.tile .value{font-size:28px;font-weight:650;margin-top:2px}.tile .note{color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.chart{position:relative;height:240px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}th{color:var(--ink2);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;border:1px solid currentColor}
+.ok{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.scroll{overflow-x:auto}footer{color:var(--muted);font-size:13px;margin-top:24px}a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Munich Air Quality Monitor</h1>
+  <p class="sub">Hourly air-quality and weather data for Munich, collected every day by a scheduled pipeline and checked for data-quality problems before it's stored. <span id="updated"></span></p>
+
+  <section class="tiles" aria-label="Latest readings">
+    <div class="card tile"><div class="label">PM2.5 now</div><div class="value" id="t-pm25">–</div><div class="note">µg/m³ · WHO daily guideline 15</div></div>
+    <div class="card tile"><div class="label">NO₂ now</div><div class="value" id="t-no2">–</div><div class="note">µg/m³</div></div>
+    <div class="card tile"><div class="label">Temperature now</div><div class="value" id="t-temp">–</div><div class="note">°C</div></div>
+    <div class="card tile"><div class="label">Data-quality pass rate</div><div class="value" id="t-pass">–</div><div class="note" id="t-pass-note">latest run</div></div>
+  </section>
+
+  <section class="grid">
+    <div class="card"><h2>PM2.5, last 7 days (µg/m³)</h2><div class="chart"><canvas id="c-pm25" aria-label="PM2.5 line chart with WHO guideline line"></canvas></div></div>
+    <div class="card"><h2>Temperature, last 7 days (°C)</h2><div class="chart"><canvas id="c-temp" aria-label="Temperature line chart"></canvas></div></div>
+  </section>
+
+  <section class="card" style="margin-bottom:12px">
+    <h2>Daily averages</h2>
+    <div class="scroll"><table id="daily"><thead><tr><th>Day</th><th class="num">PM2.5</th><th class="num">PM10</th><th class="num">NO₂</th><th class="num">Temp °C</th><th class="num">Hours</th><th>WHO PM2.5</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="grid">
+    <div class="card"><h2>Recent pipeline runs</h2><div class="scroll"><table id="runs"><thead><tr><th>Run (UTC)</th><th class="num">Rows</th><th class="num">Issues</th><th class="num">Pass rate</th></tr></thead><tbody></tbody></table></div></div>
+    <div class="card"><h2>Data-quality issues, last 30 days</h2><div class="scroll"><table id="issues"><thead><tr><th>Check</th><th>Field</th><th>Severity</th><th class="num">Count</th></tr></thead><tbody></tbody></table></div><p class="note" id="no-issues" style="color:var(--muted);display:none">No issues found. Every value passed all checks.</p></div>
+  </section>
+
+  <footer>Data: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0). Built by <a href="https://github.com/rafiasimran">Rafia Imran</a> · <a href="https://github.com/rafiasimran/munich-air-quality-monitor">Source code</a></footer>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt = (v, d = 1) => v === null || v === undefined ? "–" : Number(v).toFixed(d);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function lineChart(id, labels, values, refValue, refLabel) {
+  const datasets = [{label: id === "c-pm25" ? "PM2.5" : "Temperature", data: values, borderColor: css("--accent"),
+    borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, tension: 0.25}];
+  if (refValue !== undefined) datasets.push({label: refLabel, data: labels.map(() => refValue), borderColor: css("--ref"),
+    borderWidth: 1.5, borderDash: [5, 4], pointRadius: 0, pointHoverRadius: 0});
+  new Chart(document.getElementById(id), {
+    type: "line", data: {labels, datasets},
+    options: {maintainAspectRatio: false, interaction: {mode: "index", intersect: false},
+      plugins: {legend: {display: refValue !== undefined, labels: {color: css("--ink2"), boxWidth: 14}},
+        tooltip: {callbacks: {title: i => i[0].label.replace("T", " ")}}},
+      scales: {x: {ticks: {color: css("--muted"), maxTicksLimit: 7, callback: function(v){return this.getLabelForValue(v).slice(5,10)}}, grid: {display: false}},
+               y: {ticks: {color: css("--muted")}, grid: {color: css("--line")}, beginAtZero: id === "c-pm25"}}}
+  });
+}
+
+fetch("data.json", {cache: "no-store"}).then(r => r.json()).then(d => {
+  const last = d.latest || {};
+  document.getElementById("updated").textContent = last.time ? `Latest reading: ${last.time.replace("T", " ")}.` : "";
+  document.getElementById("t-pm25").textContent = fmt(last.pm2_5);
+  document.getElementById("t-no2").textContent = fmt(last.nitrogen_dioxide);
+  document.getElementById("t-temp").textContent = fmt(last.temperature_2m);
+  const run = d.runs[0];
+  if (run) {
+    document.getElementById("t-pass").textContent = fmt(run.pass_rate) + "%";
+    document.getElementById("t-pass-note").textContent = `${run.issues} issue(s) in ${run.rows_loaded} hourly rows`;
+  }
+
+  document.querySelector("#daily tbody").innerHTML = d.daily.slice().reverse().map(x =>
+    `<tr><td>${esc(x.day)}</td><td class="num">${fmt(x.pm2_5)}</td><td class="num">${fmt(x.pm10)}</td><td class="num">${fmt(x.nitrogen_dioxide)}</td><td class="num">${fmt(x.temperature)}</td><td class="num">${x.hours}</td>
+     <td>${x.who_pm2_5_exceeded ? '<span class="pill bad">✕ above</span>' : '<span class="pill ok">✓ within</span>'}</td></tr>`).join("");
+  document.querySelector("#runs tbody").innerHTML = d.runs.slice(0, 10).map(r =>
+    `<tr><td>${esc(r.run_at)}</td><td class="num">${r.rows_loaded}</td><td class="num">${r.issues}</td><td class="num">${fmt(r.pass_rate)}%</td></tr>`).join("");
+  if (!d.issue_summary.length) document.getElementById("no-issues").style.display = "block";
+  document.querySelector("#issues tbody").innerHTML = d.issue_summary.map(i =>
+    `<tr><td>${esc(i.check_name)}</td><td>${esc(i.column_name)}</td><td><span class="pill ${i.severity === "error" ? "bad" : "warn"}">${i.severity === "error" ? "✕" : "!"} ${esc(i.severity)}</span></td><td class="num">${i.n}</td></tr>`).join("");
+  try {  // charts last, so the numbers and tables still show if the chart library can't load
+    const labels = d.hourly.map(h => h.time);
+    lineChart("c-pm25", labels, d.hourly.map(h => h.pm2_5), d.who_limits.pm2_5, "WHO daily guideline");
+    lineChart("c-temp", labels, d.hourly.map(h => h.temperature_2m));
+  } catch (e) { document.querySelectorAll(".chart").forEach(c => c.innerHTML = '<p style="color:var(--muted)">Chart unavailable. See the daily table below.</p>'); }
+}).catch(() => { document.getElementById("updated").textContent = "Data not available yet. The first pipeline run creates it."; });
+</script>
+</body>
+</html>
