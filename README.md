@@ -1,5 +1,7 @@
 # Munich Air Quality Monitor
 
+[![Tests](https://github.com/rafiasimran/munich-air-quality-monitor/actions/workflows/tests.yml/badge.svg)](https://github.com/rafiasimran/munich-air-quality-monitor/actions/workflows/tests.yml) [![Daily data refresh](https://github.com/rafiasimran/munich-air-quality-monitor/actions/workflows/daily.yml/badge.svg)](https://github.com/rafiasimran/munich-air-quality-monitor/actions/workflows/daily.yml)
+
 A small, automated data pipeline that collects hourly air-quality and weather data for Munich every day, checks it for data-quality problems, stores it in SQLite and publishes a live dashboard.
 
 **[→ Open the live dashboard](https://rafiasimran.github.io/munich-air-quality-monitor/)**
