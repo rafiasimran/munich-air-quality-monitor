@@ -5,246 +5,16 @@
   "pm10": 45
  },
  "latest": {
-  "time": "2026-10-24T11:00",
-  "pm2_5": 2.4,
-  "pm10": 4.2,
-  "nitrogen_dioxide": 3.1,
-  "ozone": 68.0,
-  "temperature_2m": 7.9,
-  "relative_humidity_2m": 66.0,
-  "wind_speed_10m": 23.4
+  "time": "2026-10-25T10:00",
+  "pm2_5": 1.4,
+  "pm10": 1.8,
+  "nitrogen_dioxide": 4.1,
+  "ozone": 62.0,
+  "temperature_2m": 9.4,
+  "relative_humidity_2m": 85.0,
+  "wind_speed_10m": 6.9
  },
  "hourly": [
-  {
-   "time": "2026-10-17T12:00",
-   "pm2_5": 11.9,
-   "pm10": 12.8,
-   "nitrogen_dioxide": 11.4,
-   "ozone": 48.0,
-   "temperature_2m": 14.4,
-   "relative_humidity_2m": 83.0,
-   "wind_speed_10m": 5.9
-  },
-  {
-   "time": "2026-10-17T13:00",
-   "pm2_5": 11.1,
-   "pm10": 12.1,
-   "nitrogen_dioxide": 11.7,
-   "ozone": 46.0,
-   "temperature_2m": 14.8,
-   "relative_humidity_2m": 82.0,
-   "wind_speed_10m": 8.9
-  },
-  {
-   "time": "2026-10-17T14:00",
-   "pm2_5": 11.2,
-   "pm10": 12.1,
-   "nitrogen_dioxide": 11.0,
-   "ozone": 43.0,
-   "temperature_2m": 14.6,
-   "relative_humidity_2m": 83.0,
-   "wind_speed_10m": 6.0
-  },
-  {
-   "time": "2026-10-17T15:00",
-   "pm2_5": 10.3,
-   "pm10": 11.7,
-   "nitrogen_dioxide": 10.9,
-   "ozone": 46.0,
-   "temperature_2m": 14.7,
-   "relative_humidity_2m": 83.0,
-   "wind_speed_10m": 6.9
-  },
-  {
-   "time": "2026-10-17T16:00",
-   "pm2_5": 11.5,
-   "pm10": 12.9,
-   "nitrogen_dioxide": 11.7,
-   "ozone": 46.0,
-   "temperature_2m": 14.8,
-   "relative_humidity_2m": 81.0,
-   "wind_speed_10m": 6.8
-  },
-  {
-   "time": "2026-10-17T17:00",
-   "pm2_5": 13.7,
-   "pm10": 15.9,
-   "nitrogen_dioxide": 16.0,
-   "ozone": 43.0,
-   "temperature_2m": 14.4,
-   "relative_humidity_2m": 83.0,
-   "wind_speed_10m": 5.4
-  },
-  {
-   "time": "2026-10-17T18:00",
-   "pm2_5": 15.4,
-   "pm10": 17.7,
-   "nitrogen_dioxide": 20.0,
-   "ozone": 38.0,
-   "temperature_2m": 14.3,
-   "relative_humidity_2m": 83.0,
-   "wind_speed_10m": 5.1
-  },
-  {
-   "time": "2026-10-17T19:00",
-   "pm2_5": 13.6,
-   "pm10": 15.5,
-   "nitrogen_dioxide": 22.3,
-   "ozone": 35.0,
-   "temperature_2m": 13.4,
-   "relative_humidity_2m": 90.0,
-   "wind_speed_10m": 11.0
-  },
-  {
-   "time": "2026-10-17T20:00",
-   "pm2_5": 12.6,
-   "pm10": 14.7,
-   "nitrogen_dioxide": 17.2,
-   "ozone": 30.0,
-   "temperature_2m": 13.1,
-   "relative_humidity_2m": 91.0,
-   "wind_speed_10m": 8.7
-  },
-  {
-   "time": "2026-10-17T21:00",
-   "pm2_5": 9.7,
-   "pm10": 10.4,
-   "nitrogen_dioxide": 16.9,
-   "ozone": 25.0,
-   "temperature_2m": 12.0,
-   "relative_humidity_2m": 91.0,
-   "wind_speed_10m": 10.5
-  },
-  {
-   "time": "2026-10-17T22:00",
-   "pm2_5": 8.5,
-   "pm10": 9.1,
-   "nitrogen_dioxide": 17.3,
-   "ozone": 22.0,
-   "temperature_2m": 11.0,
-   "relative_humidity_2m": 92.0,
-   "wind_speed_10m": 8.7
-  },
-  {
-   "time": "2026-10-17T23:00",
-   "pm2_5": 7.4,
-   "pm10": 7.9,
-   "nitrogen_dioxide": 15.9,
-   "ozone": 22.0,
-   "temperature_2m": 10.5,
-   "relative_humidity_2m": 91.0,
-   "wind_speed_10m": 9.2
-  },
-  {
-   "time": "2026-10-18T00:00",
-   "pm2_5": 7.7,
-   "pm10": 8.1,
-   "nitrogen_dioxide": 14.2,
-   "ozone": 22.0,
-   "temperature_2m": 10.3,
-   "relative_humidity_2m": 89.0,
-   "wind_speed_10m": 8.4
-  },
-  {
-   "time": "2026-10-18T01:00",
-   "pm2_5": 4.9,
-   "pm10": 6.3,
-   "nitrogen_dioxide": 10.5,
-   "ozone": 32.0,
-   "temperature_2m": 10.2,
-   "relative_humidity_2m": 93.0,
-   "wind_speed_10m": 7.0
-  },
-  {
-   "time": "2026-10-18T02:00",
-   "pm2_5": 3.9,
-   "pm10": 4.4,
-   "nitrogen_dioxide": 8.4,
-   "ozone": 37.0,
-   "temperature_2m": 10.3,
-   "relative_humidity_2m": 95.0,
-   "wind_speed_10m": 6.8
-  },
-  {
-   "time": "2026-10-18T03:00",
-   "pm2_5": 3.9,
-   "pm10": 4.4,
-   "nitrogen_dioxide": 7.8,
-   "ozone": 40.0,
-   "temperature_2m": 10.4,
-   "relative_humidity_2m": 94.0,
-   "wind_speed_10m": 4.3
-  },
-  {
-   "time": "2026-10-18T04:00",
-   "pm2_5": 4.3,
-   "pm10": 4.9,
-   "nitrogen_dioxide": 8.0,
-   "ozone": 39.0,
-   "temperature_2m": 10.3,
-   "relative_humidity_2m": 90.0,
-   "wind_speed_10m": 5.8
-  },
-  {
-   "time": "2026-10-18T05:00",
-   "pm2_5": 4.8,
-   "pm10": 5.4,
-   "nitrogen_dioxide": 8.1,
-   "ozone": 38.0,
-   "temperature_2m": 9.8,
-   "relative_humidity_2m": 92.0,
-   "wind_speed_10m": 5.4
-  },
-  {
-   "time": "2026-10-18T06:00",
-   "pm2_5": 5.4,
-   "pm10": 6.2,
-   "nitrogen_dioxide": 8.6,
-   "ozone": 36.0,
-   "temperature_2m": 9.6,
-   "relative_humidity_2m": 94.0,
-   "wind_speed_10m": 6.1
-  },
-  {
-   "time": "2026-10-18T07:00",
-   "pm2_5": 6.2,
-   "pm10": 7.1,
-   "nitrogen_dioxide": 10.8,
-   "ozone": 32.0,
-   "temperature_2m": 9.6,
-   "relative_humidity_2m": 93.0,
-   "wind_speed_10m": 4.0
-  },
-  {
-   "time": "2026-10-18T08:00",
-   "pm2_5": 7.1,
-   "pm10": 8.1,
-   "nitrogen_dioxide": 14.3,
-   "ozone": 26.0,
-   "temperature_2m": 9.4,
-   "relative_humidity_2m": 93.0,
-   "wind_speed_10m": 4.0
-  },
-  {
-   "time": "2026-10-18T09:00",
-   "pm2_5": 7.8,
-   "pm10": 9.0,
-   "nitrogen_dioxide": 15.0,
-   "ozone": 22.0,
-   "temperature_2m": 9.5,
-   "relative_humidity_2m": 93.0,
-   "wind_speed_10m": 4.4
-  },
-  {
-   "time": "2026-10-18T10:00",
-   "pm2_5": 8.8,
-   "pm10": 10.0,
-   "nitrogen_dioxide": 15.4,
-   "ozone": 23.0,
-   "temperature_2m": 10.0,
-   "relative_humidity_2m": 90.0,
-   "wind_speed_10m": 5.5
-  },
   {
    "time": "2026-10-18T11:00",
    "pm2_5": 10.0,
@@ -1577,16 +1347,6 @@
   },
   {
    "time": "2026-10-24T00:00",
-   "pm2_5": 2.6,
-   "pm10": 3.6,
-   "nitrogen_dioxide": 5.8,
-   "ozone": 65.0,
-   "temperature_2m": 9.9,
-   "relative_humidity_2m": 59.0,
-   "wind_speed_10m": 17.4
-  },
-  {
-   "time": "2026-10-24T01:00",
    "pm2_5": 2.3,
    "pm10": 3.4,
    "nitrogen_dioxide": 4.3,
@@ -1596,49 +1356,49 @@
    "wind_speed_10m": 17.3
   },
   {
-   "time": "2026-10-24T02:00",
-   "pm2_5": 2.4,
-   "pm10": 3.8,
-   "nitrogen_dioxide": 3.8,
-   "ozone": 68.0,
+   "time": "2026-10-24T01:00",
+   "pm2_5": 2.5,
+   "pm10": 3.4,
+   "nitrogen_dioxide": 3.7,
+   "ozone": 67.0,
    "temperature_2m": 8.6,
    "relative_humidity_2m": 63.0,
    "wind_speed_10m": 19.2
   },
   {
-   "time": "2026-10-24T03:00",
-   "pm2_5": 2.5,
-   "pm10": 4.1,
-   "nitrogen_dioxide": 3.1,
+   "time": "2026-10-24T02:00",
+   "pm2_5": 2.1,
+   "pm10": 3.6,
+   "nitrogen_dioxide": 3.2,
    "ozone": 68.0,
    "temperature_2m": 8.5,
    "relative_humidity_2m": 63.0,
    "wind_speed_10m": 20.2
   },
   {
-   "time": "2026-10-24T04:00",
-   "pm2_5": 2.5,
-   "pm10": 4.5,
-   "nitrogen_dioxide": 2.7,
-   "ozone": 68.0,
+   "time": "2026-10-24T03:00",
+   "pm2_5": 2.2,
+   "pm10": 3.7,
+   "nitrogen_dioxide": 2.8,
+   "ozone": 67.0,
    "temperature_2m": 8.2,
    "relative_humidity_2m": 65.0,
    "wind_speed_10m": 15.5
   },
   {
-   "time": "2026-10-24T05:00",
+   "time": "2026-10-24T04:00",
    "pm2_5": 2.5,
-   "pm10": 4.7,
-   "nitrogen_dioxide": 2.2,
-   "ozone": 69.0,
+   "pm10": 4.2,
+   "nitrogen_dioxide": 2.4,
+   "ozone": 68.0,
    "temperature_2m": 7.9,
    "relative_humidity_2m": 69.0,
    "wind_speed_10m": 19.1
   },
   {
-   "time": "2026-10-24T06:00",
-   "pm2_5": 2.6,
-   "pm10": 4.7,
+   "time": "2026-10-24T05:00",
+   "pm2_5": 2.4,
+   "pm10": 4.2,
    "nitrogen_dioxide": 2.5,
    "ozone": 69.0,
    "temperature_2m": 6.8,
@@ -1646,9 +1406,9 @@
    "wind_speed_10m": 20.0
   },
   {
-   "time": "2026-10-24T07:00",
-   "pm2_5": 2.7,
-   "pm10": 5.1,
+   "time": "2026-10-24T06:00",
+   "pm2_5": 2.5,
+   "pm10": 4.3,
    "nitrogen_dioxide": 3.1,
    "ozone": 69.0,
    "temperature_2m": 6.4,
@@ -1656,44 +1416,284 @@
    "wind_speed_10m": 20.9
   },
   {
-   "time": "2026-10-24T08:00",
-   "pm2_5": 2.8,
-   "pm10": 5.0,
-   "nitrogen_dioxide": 4.1,
+   "time": "2026-10-24T07:00",
+   "pm2_5": 2.6,
+   "pm10": 4.4,
+   "nitrogen_dioxide": 3.6,
    "ozone": 68.0,
    "temperature_2m": 6.3,
    "relative_humidity_2m": 63.0,
    "wind_speed_10m": 16.6
   },
   {
-   "time": "2026-10-24T09:00",
-   "pm2_5": 2.7,
-   "pm10": 4.6,
-   "nitrogen_dioxide": 4.2,
-   "ozone": 68.0,
+   "time": "2026-10-24T08:00",
+   "pm2_5": 2.3,
+   "pm10": 3.8,
+   "nitrogen_dioxide": 3.5,
+   "ozone": 69.0,
    "temperature_2m": 6.7,
    "relative_humidity_2m": 64.0,
    "wind_speed_10m": 19.0
   },
   {
-   "time": "2026-10-24T10:00",
-   "pm2_5": 2.5,
-   "pm10": 4.2,
-   "nitrogen_dioxide": 3.4,
-   "ozone": 68.0,
+   "time": "2026-10-24T09:00",
+   "pm2_5": 2.2,
+   "pm10": 3.6,
+   "nitrogen_dioxide": 3.0,
+   "ozone": 69.0,
    "temperature_2m": 7.0,
    "relative_humidity_2m": 66.0,
    "wind_speed_10m": 22.1
   },
   {
-   "time": "2026-10-24T11:00",
-   "pm2_5": 2.4,
-   "pm10": 4.2,
-   "nitrogen_dioxide": 3.1,
-   "ozone": 68.0,
-   "temperature_2m": 7.9,
+   "time": "2026-10-24T10:00",
+   "pm2_5": 2.1,
+   "pm10": 3.7,
+   "nitrogen_dioxide": 2.7,
+   "ozone": 69.0,
+   "temperature_2m": 7.8,
    "relative_humidity_2m": 66.0,
-   "wind_speed_10m": 23.4
+   "wind_speed_10m": 22.0
+  },
+  {
+   "time": "2026-10-24T11:00",
+   "pm2_5": 2.2,
+   "pm10": 3.7,
+   "nitrogen_dioxide": 2.6,
+   "ozone": 69.0,
+   "temperature_2m": 8.0,
+   "relative_humidity_2m": 65.0,
+   "wind_speed_10m": 21.2
+  },
+  {
+   "time": "2026-10-24T12:00",
+   "pm2_5": 2.1,
+   "pm10": 3.5,
+   "nitrogen_dioxide": 2.7,
+   "ozone": 69.0,
+   "temperature_2m": 8.8,
+   "relative_humidity_2m": 62.0,
+   "wind_speed_10m": 18.5
+  },
+  {
+   "time": "2026-10-24T13:00",
+   "pm2_5": 1.8,
+   "pm10": 3.3,
+   "nitrogen_dioxide": 3.2,
+   "ozone": 70.0,
+   "temperature_2m": 9.5,
+   "relative_humidity_2m": 58.0,
+   "wind_speed_10m": 18.8
+  },
+  {
+   "time": "2026-10-24T14:00",
+   "pm2_5": 1.8,
+   "pm10": 3.4,
+   "nitrogen_dioxide": 4.0,
+   "ozone": 69.0,
+   "temperature_2m": 9.0,
+   "relative_humidity_2m": 58.0,
+   "wind_speed_10m": 20.1
+  },
+  {
+   "time": "2026-10-24T15:00",
+   "pm2_5": 1.9,
+   "pm10": 3.6,
+   "nitrogen_dioxide": 4.6,
+   "ozone": 68.0,
+   "temperature_2m": 8.6,
+   "relative_humidity_2m": 58.0,
+   "wind_speed_10m": 18.2
+  },
+  {
+   "time": "2026-10-24T16:00",
+   "pm2_5": 2.1,
+   "pm10": 3.6,
+   "nitrogen_dioxide": 5.3,
+   "ozone": 67.0,
+   "temperature_2m": 8.3,
+   "relative_humidity_2m": 59.0,
+   "wind_speed_10m": 14.2
+  },
+  {
+   "time": "2026-10-24T17:00",
+   "pm2_5": 2.6,
+   "pm10": 4.1,
+   "nitrogen_dioxide": 7.0,
+   "ozone": 64.0,
+   "temperature_2m": 7.5,
+   "relative_humidity_2m": 65.0,
+   "wind_speed_10m": 11.6
+  },
+  {
+   "time": "2026-10-24T18:00",
+   "pm2_5": 3.1,
+   "pm10": 4.6,
+   "nitrogen_dioxide": 8.5,
+   "ozone": 57.0,
+   "temperature_2m": 6.7,
+   "relative_humidity_2m": 69.0,
+   "wind_speed_10m": 8.8
+  },
+  {
+   "time": "2026-10-24T19:00",
+   "pm2_5": 3.6,
+   "pm10": 4.4,
+   "nitrogen_dioxide": 8.6,
+   "ozone": 55.0,
+   "temperature_2m": 6.1,
+   "relative_humidity_2m": 78.0,
+   "wind_speed_10m": 8.8
+  },
+  {
+   "time": "2026-10-24T20:00",
+   "pm2_5": 3.3,
+   "pm10": 4.2,
+   "nitrogen_dioxide": 7.9,
+   "ozone": 54.0,
+   "temperature_2m": 5.8,
+   "relative_humidity_2m": 81.0,
+   "wind_speed_10m": 9.2
+  },
+  {
+   "time": "2026-10-24T21:00",
+   "pm2_5": 2.8,
+   "pm10": 4.0,
+   "nitrogen_dioxide": 7.6,
+   "ozone": 60.0,
+   "temperature_2m": 5.6,
+   "relative_humidity_2m": 82.0,
+   "wind_speed_10m": 9.2
+  },
+  {
+   "time": "2026-10-24T22:00",
+   "pm2_5": 2.4,
+   "pm10": 3.2,
+   "nitrogen_dioxide": 6.8,
+   "ozone": 61.0,
+   "temperature_2m": 5.9,
+   "relative_humidity_2m": 80.0,
+   "wind_speed_10m": 8.8
+  },
+  {
+   "time": "2026-10-24T23:00",
+   "pm2_5": 2.0,
+   "pm10": 2.9,
+   "nitrogen_dioxide": 5.5,
+   "ozone": 63.0,
+   "temperature_2m": 5.6,
+   "relative_humidity_2m": 80.0,
+   "wind_speed_10m": 7.2
+  },
+  {
+   "time": "2026-10-25T00:00",
+   "pm2_5": 1.8,
+   "pm10": 3.0,
+   "nitrogen_dioxide": 5.4,
+   "ozone": 59.0,
+   "temperature_2m": 5.5,
+   "relative_humidity_2m": 78.0,
+   "wind_speed_10m": 6.5
+  },
+  {
+   "time": "2026-10-25T01:00",
+   "pm2_5": 1.9,
+   "pm10": 3.4,
+   "nitrogen_dioxide": 6.1,
+   "ozone": 52.0,
+   "temperature_2m": 5.2,
+   "relative_humidity_2m": 79.0,
+   "wind_speed_10m": 6.5
+  },
+  {
+   "time": "2026-10-25T02:00",
+   "pm2_5": 2.0,
+   "pm10": 3.9,
+   "nitrogen_dioxide": 7.5,
+   "ozone": 50.0,
+   "temperature_2m": 5.3,
+   "relative_humidity_2m": 79.0,
+   "wind_speed_10m": 5.9
+  },
+  {
+   "time": "2026-10-25T03:00",
+   "pm2_5": 2.1,
+   "pm10": 4.0,
+   "nitrogen_dioxide": 8.1,
+   "ozone": 46.0,
+   "temperature_2m": 5.8,
+   "relative_humidity_2m": 77.0,
+   "wind_speed_10m": 4.7
+  },
+  {
+   "time": "2026-10-25T04:00",
+   "pm2_5": 2.4,
+   "pm10": 4.4,
+   "nitrogen_dioxide": 8.9,
+   "ozone": 40.0,
+   "temperature_2m": 5.9,
+   "relative_humidity_2m": 77.0,
+   "wind_speed_10m": 8.6
+  },
+  {
+   "time": "2026-10-25T05:00",
+   "pm2_5": 2.7,
+   "pm10": 3.5,
+   "nitrogen_dioxide": 8.1,
+   "ozone": 42.0,
+   "temperature_2m": 6.1,
+   "relative_humidity_2m": 78.0,
+   "wind_speed_10m": 9.8
+  },
+  {
+   "time": "2026-10-25T06:00",
+   "pm2_5": 2.6,
+   "pm10": 3.1,
+   "nitrogen_dioxide": 7.2,
+   "ozone": 51.0,
+   "temperature_2m": 6.3,
+   "relative_humidity_2m": 80.0,
+   "wind_speed_10m": 11.8
+  },
+  {
+   "time": "2026-10-25T07:00",
+   "pm2_5": 1.9,
+   "pm10": 2.8,
+   "nitrogen_dioxide": 5.1,
+   "ozone": 60.0,
+   "temperature_2m": 6.6,
+   "relative_humidity_2m": 88.0,
+   "wind_speed_10m": 11.3
+  },
+  {
+   "time": "2026-10-25T08:00",
+   "pm2_5": 1.8,
+   "pm10": 2.3,
+   "nitrogen_dioxide": 5.5,
+   "ozone": 60.0,
+   "temperature_2m": 7.1,
+   "relative_humidity_2m": 89.0,
+   "wind_speed_10m": 12.0
+  },
+  {
+   "time": "2026-10-25T09:00",
+   "pm2_5": 1.5,
+   "pm10": 1.9,
+   "nitrogen_dioxide": 5.1,
+   "ozone": 59.0,
+   "temperature_2m": 8.1,
+   "relative_humidity_2m": 85.0,
+   "wind_speed_10m": 10.1
+  },
+  {
+   "time": "2026-10-25T10:00",
+   "pm2_5": 1.4,
+   "pm10": 1.8,
+   "nitrogen_dioxide": 4.1,
+   "ozone": 62.0,
+   "temperature_2m": 9.4,
+   "relative_humidity_2m": 85.0,
+   "wind_speed_10m": 6.9
   }
  ],
  "daily": [
@@ -1769,16 +1769,32 @@
   },
   {
    "day": "2026-10-24",
-   "pm2_5": 2.5,
-   "pm10": 4.3,
-   "nitrogen_dioxide": 3.5,
-   "temperature": 7.8,
-   "hours": 12,
+   "pm2_5": 2.4,
+   "pm10": 3.8,
+   "nitrogen_dioxide": 4.5,
+   "temperature": 7.5,
+   "hours": 24,
+   "who_pm2_5_exceeded": false,
+   "who_pm10_exceeded": false
+  },
+  {
+   "day": "2026-10-25",
+   "pm2_5": 2.0,
+   "pm10": 3.1,
+   "nitrogen_dioxide": 6.5,
+   "temperature": 6.5,
+   "hours": 11,
    "who_pm2_5_exceeded": false,
    "who_pm10_exceeded": false
   }
  ],
  "runs": [
+  {
+   "run_at": "2026-10-25 09:46:56",
+   "rows_loaded": 35,
+   "issues": 0,
+   "pass_rate": 100.0
+  },
   {
    "run_at": "2026-10-24 09:30:20",
    "rows_loaded": 36,
