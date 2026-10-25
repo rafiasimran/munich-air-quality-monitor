@@ -4,7 +4,7 @@
 
 A small, automated data pipeline that collects hourly air-quality and weather data for Munich every day, checks it for data-quality problems, stores it in SQLite and publishes a live dashboard.
 
-**[→ Open the live dashboard](https://rafiasimran.github.io/munich-air-quality-monitor/)**
+**[Live dashboard](https://rafiasimran.github.io/munich-air-quality-monitor/)**
 
 ## Why I built it
 
