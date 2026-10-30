@@ -6,6 +6,8 @@ A small, automated data pipeline that collects hourly air-quality and weather da
 
 **[Live dashboard](https://rafiasimran.github.io/munich-air-quality-monitor/)**
 
+![Dashboard showing PM2.5 and temperature for the last 7 days](docs/screenshot.png)
+
 ## Why I built it
 
 Most data projects I'd seen started from a clean CSV. Real data doesn't arrive like that: sensors drop out, values freeze, timestamps go missing. I wanted to practise the part that comes *before* analysis, which is making sure the data can be trusted, and to have it run on its own every day rather than once on my laptop.
