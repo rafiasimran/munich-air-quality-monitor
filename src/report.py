@@ -2,7 +2,8 @@
 import json
 from pathlib import Path
 
-from config import CITY, WHO_DAILY_LIMITS
+from compare import model_vs_station
+from config import CITY, STATIONS, WHO_DAILY_LIMITS
 
 DAILY_SQL = """
 SELECT substr(time, 1, 10) AS day,
@@ -24,7 +25,20 @@ ORDER BY time DESC
 LIMIT 168
 """
 
-RUNS_SQL = "SELECT run_at, rows_loaded, issues, pass_rate FROM runs ORDER BY run_at DESC LIMIT 30"
+RUNS_SQL = ("SELECT run_at, rows_loaded, issues, pass_rate FROM runs "
+            "WHERE run_at NOT LIKE '% DEBY%' ORDER BY run_at DESC LIMIT 30")
+
+LABELS_SQL = """
+SELECT labels FROM conditions
+WHERE time >= (SELECT strftime('%Y-%m-%dT%H:00', MAX(time), '-7 days') FROM conditions)
+"""
+
+LATEST_CONDITIONS_SQL = "SELECT time, labels, visibility_risk FROM conditions ORDER BY time DESC LIMIT 1"
+
+STATION_LATEST_SQL = """
+SELECT time, pm10, pm2_5, nitrogen_dioxide, ozone FROM station_measurements
+WHERE station = ? ORDER BY time_utc DESC LIMIT 1
+"""
 
 ISSUES_SQL = """
 SELECT check_name, column_name, severity, COUNT(*) AS n
@@ -35,8 +49,8 @@ ORDER BY n DESC
 """
 
 
-def _rows(con, sql):
-    cur = con.execute(sql)
+def _rows(con, sql, params=()):
+    cur = con.execute(sql, params)
     names = [d[0] for d in cur.description]
     return [dict(zip(names, r)) for r in cur.fetchall()]
 
@@ -47,6 +61,18 @@ def build_report(con) -> dict:
         d["who_pm2_5_exceeded"] = d["pm2_5"] is not None and d["pm2_5"] > WHO_DAILY_LIMITS["pm2_5"]
         d["who_pm10_exceeded"] = d["pm10"] is not None and d["pm10"] > WHO_DAILY_LIMITS["pm10"]
     hourly = list(reversed(_rows(con, HOURLY_SQL)))
+    label_counts = {}
+    for (labels,) in con.execute(LABELS_SQL):
+        for label in (labels or "").split(","):
+            if label:
+                label_counts[label] = label_counts.get(label, 0) + 1
+    latest_conditions = _rows(con, LATEST_CONDITIONS_SQL)
+    stations = []
+    for code, info in STATIONS.items():
+        latest = _rows(con, STATION_LATEST_SQL, (code,))
+        stations.append({"code": code, "name": info["name"], "type": info["type"],
+                         "latest": latest[0] if latest else None,
+                         "vs_model": model_vs_station(con, code)})
     return {
         "city": CITY,
         "who_limits": WHO_DAILY_LIMITS,
@@ -55,6 +81,9 @@ def build_report(con) -> dict:
         "daily": daily,
         "runs": _rows(con, RUNS_SQL),
         "issue_summary": _rows(con, ISSUES_SQL),
+        "conditions_now": latest_conditions[0] if latest_conditions else None,
+        "condition_hours_7d": dict(sorted(label_counts.items(), key=lambda kv: -kv[1])),
+        "stations": stations,
     }
 
 
