@@ -52,7 +52,18 @@ flowchart LR
 
 ## What the real stations showed
 
-- **PM2.5 above PM10.** On 1 and 2 Nov 2026, Lothstraße reported more PM2.5 than PM10 in 25 of 48 hours, up to 11 against 2 µg/m³. PM2.5 is part of PM10, so one of the two instruments is off. These hours are kept but marked, because a model trained on them would learn something that can't happen.
+**Model vs sensor, 17 Oct to 3 Nov 2026** (about 420 hours per station; bias above zero means the model reads too high, in µg/m³):
+
+| | Lothstraße (background) | Landshuter Allee (busy road) |
+|---|---|---|
+| NO₂ | bias −0.1, correlation 0.71 | bias **−9.6**, correlation 0.41 |
+| PM2.5 | bias +1.5, correlation 0.74 | bias +2.1, correlation 0.59 |
+| PM10 | bias −4.3, correlation 0.51 | bias −3.9, correlation 0.68 |
+| Ozone | bias +5.4, correlation 0.73 | not measured there |
+
+At the background station the model gets NO₂ almost exactly right on average. On the busy road it reads about 10 µg/m³ too low (measured average 25.6, model 15.9) and follows the ups and downs much less well. The model describes the city in roughly 10 km squares, so it can't see the traffic right next to the sensor. For anyone using the model as "ground truth", that is the gap to plan for.
+
+- **PM2.5 above PM10.** Lothstraße reported more PM2.5 than PM10 in 70 hours of this period; on 1 and 2 Nov it was 25 of 48 hours, up to 11 against 2 µg/m³. PM2.5 is part of PM10, so one of the two instruments is off. These hours are kept but marked, because a model trained on them would learn something that can't happen.
 - **Whole numbers repeat.** Stations report whole µg/m³, so at low levels the same value often repeats: Landshuter Allee showed PM2.5 = 8 for 7 hours in a row. The 6-hour stuck-sensor rule I wrote for the model would call that a frozen sensor. For stations it is 12 hours.
 - **Time zones.** The stations use German winter time (UTC+1) all year, while Open-Meteo uses Munich clock time. The API's v4 notes say "CET or CEST", but the data doesn't follow that: both clock-change days have 24 hours, and 29 March has a 02:00 hour that doesn't exist on a German clock. A test pins this down. The station checks run on UTC, because on the night the clocks go back two real hours share one Munich label.
 - **The API is being retired under me.** The first live run lost one station because v3 of the UBA API already fails some requests on purpose before it is switched off in February 2027. The pipeline now uses v4, retries failed requests, and skips a station for the day rather than stopping.
