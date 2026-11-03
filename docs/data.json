@@ -1840,6 +1840,12 @@
  ],
  "runs": [
   {
+   "run_at": "2026-11-03 18:31:08",
+   "rows_loaded": 44,
+   "issues": 0,
+   "pass_rate": 100.0
+  },
+  {
    "run_at": "2026-11-03 18:26:16",
    "rows_loaded": 452,
    "issues": 0,
@@ -1950,6 +1956,12 @@
  ],
  "issue_summary": [
   {
+   "check_name": "pm25_above_pm10",
+   "column_name": "DEBY039 pm2_5",
+   "severity": "info",
+   "n": 70
+  },
+  {
    "check_name": "missing_value",
    "column_name": "DEBY115 nitrogen_dioxide",
    "severity": "warning",
@@ -1988,8 +2000,51 @@
    "code": "DEBY039",
    "name": "M\u00fcnchen/Lothstra\u00dfe",
    "type": "urban background",
-   "latest": null,
-   "vs_model": []
+   "latest": {
+    "time": "2026-11-03T16:00",
+    "pm10": 35.0,
+    "pm2_5": 14.0,
+    "nitrogen_dioxide": 11.0,
+    "ozone": 40.0
+   },
+   "vs_model": [
+    {
+     "field": "pm10",
+     "hours": 425,
+     "model_mean": 12.6,
+     "station_mean": 16.9,
+     "bias": -4.3,
+     "mae": 9.2,
+     "corr": 0.51
+    },
+    {
+     "field": "pm2_5",
+     "hours": 425,
+     "model_mean": 10.1,
+     "station_mean": 8.6,
+     "bias": 1.5,
+     "mae": 3.4,
+     "corr": 0.74
+    },
+    {
+     "field": "nitrogen_dioxide",
+     "hours": 425,
+     "model_mean": 15.9,
+     "station_mean": 16.0,
+     "bias": -0.1,
+     "mae": 5.2,
+     "corr": 0.71
+    },
+    {
+     "field": "ozone",
+     "hours": 425,
+     "model_mean": 39.8,
+     "station_mean": 34.4,
+     "bias": 5.4,
+     "mae": 10.9,
+     "corr": 0.73
+    }
+   ]
   },
   {
    "code": "DEBY115",
