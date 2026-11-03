@@ -37,6 +37,20 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   </section>
 
   <section class="grid">
+    <div class="card">
+      <h2>Conditions now, for outdoor robots and drones</h2>
+      <p style="margin:0 0 10px;color:var(--ink2)">Risk for cameras and lidar: <strong id="vis-risk">–</strong> · <span id="cond-labels">–</span></p>
+      <div class="scroll"><table id="cond-7d"><thead><tr><th>Condition, last 7 days</th><th class="num">Hours</th></tr></thead><tbody></tbody></table></div>
+      <p style="margin:10px 0 0;color:var(--muted);font-size:13px">Labels use my own thresholds (rain ≥ 0.5 mm, wind ≥ 40 km/h, visibility &lt; 1 km, PM2.5 ≥ 25 with humidity ≥ 90%). Look up any hour with <code>src/lookup.py</code>.</p>
+    </div>
+    <div class="card">
+      <h2>Model vs real sensors</h2>
+      <p style="margin:0 0 10px;color:var(--ink2)">The Open-Meteo values come from a model. Here they are compared, hour by hour, with two measuring stations. Bias above zero means the model reads too high.</p>
+      <div id="stations"></div>
+    </div>
+  </section>
+
+  <section class="grid">
     <div class="card"><h2>PM2.5, last 7 days (µg/m³)</h2><div class="chart"><canvas id="c-pm25" aria-label="PM2.5 line chart with WHO guideline line"></canvas></div></div>
     <div class="card"><h2>Temperature, last 7 days (°C)</h2><div class="chart"><canvas id="c-temp" aria-label="Temperature line chart"></canvas></div></div>
   </section>
@@ -51,7 +65,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
     <div class="card"><h2>Data-quality issues, last 30 days</h2><div class="scroll"><table id="issues"><thead><tr><th>Check</th><th>Field</th><th>Severity</th><th class="num">Count</th></tr></thead><tbody></tbody></table></div><p class="note" id="no-issues" style="color:var(--muted);display:none">No issues found. Every value passed all checks.</p></div>
   </section>
 
-  <footer>Data: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0). Built by <a href="https://github.com/rafiasimran">Rafia Imran</a> · <a href="https://github.com/rafiasimran/munich-air-quality-monitor">Source code</a></footer>
+  <footer>Data: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0) and <a href="https://luftdaten.umweltbundesamt.de/en">Umweltbundesamt</a>, with data from Bavaria's air monitoring network (recent values provisional). Built by <a href="https://github.com/rafiasimran">Rafia Imran</a> · <a href="https://github.com/rafiasimran/munich-air-quality-monitor">Source code</a></footer>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
@@ -94,6 +108,22 @@ fetch("data.json", {cache: "no-store"}).then(r => r.json()).then(d => {
   if (!d.issue_summary.length) document.getElementById("no-issues").style.display = "block";
   document.querySelector("#issues tbody").innerHTML = d.issue_summary.map(i =>
     `<tr><td>${esc(i.check_name)}</td><td>${esc(i.column_name)}</td><td><span class="pill ${i.severity === "error" ? "bad" : "warn"}">${i.severity === "error" ? "✕" : "!"} ${esc(i.severity)}</span></td><td class="num">${i.n}</td></tr>`).join("");
+  const cond = d.conditions_now;
+  if (cond) {
+    document.getElementById("vis-risk").textContent = cond.visibility_risk;
+    document.getElementById("cond-labels").textContent = cond.labels ? cond.labels.replace(/,/g, ", ").replace(/_/g, " ") : "no label yet";
+  }
+  const c7 = Object.entries(d.condition_hours_7d || {});
+  document.querySelector("#cond-7d tbody").innerHTML = c7.length
+    ? c7.map(([k, v]) => `<tr><td>${esc(k.replace(/_/g, " "))}</td><td class="num">${v}</td></tr>`).join("")
+    : '<tr><td colspan="2" style="color:var(--muted)">No labelled hours yet.</td></tr>';
+  const names = {pm10: "PM10", pm2_5: "PM2.5", nitrogen_dioxide: "NO₂", ozone: "Ozone"};
+  document.getElementById("stations").innerHTML = (d.stations || []).map(s => `
+    <h3 style="font-size:14px;margin:12px 0 6px">${esc(s.name)} <span style="color:var(--muted);font-weight:400">(${esc(s.type)})</span></h3>
+    <div class="scroll"><table><thead><tr><th>Pollutant</th><th class="num">Hours</th><th class="num">Model</th><th class="num">Station</th><th class="num">Bias</th><th class="num">Corr.</th></tr></thead><tbody>
+    ${s.vs_model.length ? s.vs_model.map(r => `<tr><td>${names[r.field] || esc(r.field)}</td><td class="num">${r.hours}</td><td class="num">${fmt(r.model_mean)}</td><td class="num">${fmt(r.station_mean)}</td><td class="num">${r.bias > 0 ? "+" : ""}${fmt(r.bias)}</td><td class="num">${fmt(r.corr, 2)}</td></tr>`).join("")
+      : '<tr><td colspan="6" style="color:var(--muted)">No overlapping hours yet.</td></tr>'}
+    </tbody></table></div>`).join("");
   try {  // charts last, so the numbers and tables still show if the chart library can't load
     const labels = d.hourly.map(h => h.time);
     lineChart("c-pm25", labels, d.hourly.map(h => h.pm2_5), d.who_limits.pm2_5, "WHO daily guideline");
