@@ -1,0 +1,48 @@
+name: Monthly dataset release
+
+on:
+  schedule:
+    - cron: "40 6 2 * *"   # 06:40 UTC on the 2nd of every month, for the month before
+  workflow_dispatch:
+    inputs:
+      month:
+        description: "Month to export (YYYY-MM). Empty = last month."
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: pytest -q
+      - name: Export the month
+        id: month
+        run: |
+          month="${{ inputs.month }}"
+          if [ -z "$month" ]; then month=$(date -u -d "$(date -u +%Y-%m-01) -1 day" +%Y-%m); fi
+          echo "month=$month" >> "$GITHUB_OUTPUT"
+          python src/export.py "$month"
+      - name: Commit the export
+        run: |
+          git config user.name "air-quality-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add releases/
+          git diff --cached --quiet || git commit -m "Dataset export ${{ steps.month.outputs.month }}"
+          git push
+      - name: Publish it as a release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          m="${{ steps.month.outputs.month }}"
+          if gh release view "data-$m" >/dev/null 2>&1; then
+            gh release upload "data-$m" releases/$m/* --clobber
+          else
+            gh release create "data-$m" releases/$m/* --title "Munich conditions dataset $m" --notes-file "releases/$m/DATA_CARD.md"
+          fi
