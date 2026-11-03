@@ -8,9 +8,9 @@ from config import (AIR_FIELDS, AIR_URL, LATITUDE, LONGITUDE, TIMEZONE,
                     WEATHER_FIELDS, WEATHER_URL)
 
 
-def _get(url: str, fields: list[str]) -> dict:
+def _get(url: str, fields: list[str], past_days: int = 1) -> dict:
     params = {"latitude": LATITUDE, "longitude": LONGITUDE, "hourly": ",".join(fields),
-              "past_days": 1, "forecast_days": 1, "timezone": TIMEZONE}
+              "past_days": past_days, "forecast_days": 1, "timezone": TIMEZONE}
     r = requests.get(url, params=params, timeout=30)
     r.raise_for_status()
     return r.json()
@@ -31,5 +31,8 @@ def merge(air: dict, weather: dict, now: datetime | None = None) -> list[dict]:
     return sorted(past, key=lambda r: r["time"])
 
 
-def fetch_latest() -> list[dict]:
-    return merge(_get(AIR_URL, AIR_FIELDS), _get(WEATHER_URL, WEATHER_FIELDS))
+def fetch_latest(past_days: int = 1) -> list[dict]:
+    """Yesterday and today by default. Open-Meteo allows up to 92 past days, which is used
+    once to fill in fields that were added later (see main.py)."""
+    past_days = max(1, min(past_days, 92))
+    return merge(_get(AIR_URL, AIR_FIELDS, past_days), _get(WEATHER_URL, WEATHER_FIELDS, past_days))
