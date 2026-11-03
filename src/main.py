@@ -8,7 +8,7 @@ from config import (DASHBOARD_JSON, DB_PATH, STATION_FIELDS, STATION_HISTORY_STA
                     STATIONS)
 from fetch import fetch_latest
 from report import write_report
-from stations import days_to_fetch, fetch_station
+from stations import days_to_fetch, fetch_station, rows_for_checks
 from store import connect, last_station_time, save_measurements, save_run, save_station_rows
 
 
@@ -24,7 +24,7 @@ def update_stations(con, run_at: str) -> None:
             print(f"Station {code}: could not fetch ({e})")
             continue
         fields = [f for f in STATION_FIELDS if any(r[f] is not None for r in rows)]
-        issues = run_checks(rows, fields, STATION_STUCK_HOURS)
+        issues = run_checks(rows_for_checks(rows), fields, STATION_STUCK_HOURS)
         for i in issues:
             i["column"] = f"{code} {i['column']}"
         save_station_rows(con, rows)

@@ -43,8 +43,8 @@ STUCK_HOURS = 6
 WHO_DAILY_LIMITS = {"pm2_5": 15, "pm10": 45}
 
 # Real measuring stations. Umweltbundesamt (UBA) API, data from Bavaria's monitoring network.
-# UBA times are always German winter time (UTC+1), all year round.
-UBA_URL = "https://luftdaten.umweltbundesamt.de/api/air-data/v3/measures/json"
+# v3 of the API is switched off on 1 Feb 2027 and already fails some requests on purpose.
+UBA_URL = "https://luftdaten.umweltbundesamt.de/api/air-data/v4/measures/json"
 UBA_COMPONENTS = {1: "pm10", 3: "ozone", 5: "nitrogen_dioxide", 9: "pm2_5"}
 STATION_FIELDS = ["pm10", "pm2_5", "nitrogen_dioxide", "ozone"]
 STATIONS = {

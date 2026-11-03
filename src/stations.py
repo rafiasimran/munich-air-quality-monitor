@@ -3,14 +3,18 @@
 The Open-Meteo values in this project come from a European air-quality model (CAMS).
 These are measured at the street: two stations from Bavaria's monitoring network.
 
-The UBA API returns one file per station and pollutant:
+The UBA API (v4) returns one file per station and pollutant:
 
     {"data": {"473": {"2026-11-01 00:00:00": [component, scope, value, "date end", index], ...}}}
 
-Times are German winter time (UTC+1) all year, and each value is the average of the
-hour that starts at that time. Recent values are provisional until the network
-validates them.
+Each value is the average of the hour that starts at that time. The v4 notes say times
+are CET or CEST, but the data itself is in German winter time (UTC+1) all year: both
+clock-change days have 24 hours, 29 March has a 02:00 hour that doesn't exist on a
+German clock, and summer values sit at the same timestamps as in v3, which was
+documented as UTC+1. test_stations.py pins this down. Recent values are provisional
+until the network validates them.
 """
+import time
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
@@ -21,10 +25,18 @@ from config import STATION_FIELDS, STATIONS, TIMEZONE, UBA_COMPONENTS, UBA_URL
 UBA_OFFSET = timedelta(hours=1)
 
 
-def _get(params: dict) -> dict:
-    r = requests.get(UBA_URL, params=params, timeout=30, headers={"User-Agent": "munich-air-quality-monitor"})
-    r.raise_for_status()
-    return r.json()
+def _get(params: dict, tries: int = 3) -> dict:
+    """GET with a few retries: the API sometimes fails a request on purpose or times out."""
+    for attempt in range(1, tries + 1):
+        try:
+            r = requests.get(UBA_URL, params=params, timeout=30,
+                             headers={"User-Agent": "munich-air-quality-monitor"})
+            r.raise_for_status()
+            return r.json()
+        except requests.RequestException:
+            if attempt == tries:
+                raise
+            time.sleep(5 * attempt)
 
 
 def uba_to_utc(stamp: str) -> datetime:
@@ -62,3 +74,9 @@ def days_to_fetch(last_utc: str | None, start: str, today: datetime, max_days: i
     first = datetime.strptime(last_utc[:10], "%Y-%m-%d") if last_utc else datetime.strptime(start, "%Y-%m-%d")
     first = max(first, today - timedelta(days=max_days - 1))
     return first.strftime("%Y-%m-%d"), today.strftime("%Y-%m-%d")
+
+
+def rows_for_checks(rows: list[dict]) -> list[dict]:
+    """Copies of the rows with UTC as the time, for the checks. On the night the clocks go
+    back, two real hours share one Munich clock label, which would look like a duplicate."""
+    return [{**r, "time": r["time_utc"].rstrip("Z")} for r in rows]
