@@ -5,7 +5,7 @@ from pathlib import Path
 
 from checks import run_checks
 from config import STATION_STUCK_HOURS
-from stations import days_to_fetch, fetch_station, to_local_label, uba_to_utc
+from stations import days_to_fetch, fetch_station, rows_for_checks, to_local_label, uba_to_utc
 
 # Real hourly values for 1-2 Nov 2026, captured from the UBA API on 3 Nov 2026 and kept
 # in the API's own format ("index" fields set to 0). Data: Umweltbundesamt.
@@ -62,3 +62,15 @@ def test_days_to_fetch_backfills_then_continues():
     assert days_to_fetch(None, "2026-10-17", today) == ("2026-10-17", "2026-11-03")
     assert days_to_fetch("2026-11-02T22:00Z", "2026-10-17", today) == ("2026-11-02", "2026-11-03")
     assert days_to_fetch(None, "2026-01-01", today)[0] == "2026-10-04"   # never more than 31 days at once
+
+
+def test_clock_change_night_is_not_a_duplicate_when_checked_in_utc():
+    # 25 Oct 2026: 01:00 and 02:00 in UTC+1 (00:00 and 01:00 UTC) both show as 02:00 on a
+    # Munich clock, once in summer time and once after the clocks went back.
+    raw = {"data": {"535": {"2026-10-25 01:00:00": [5, 2, 20, "2026-10-25 02:00:00", "0"],
+                            "2026-10-25 02:00:00": [5, 2, 21, "2026-10-25 03:00:00", "0"]}}}
+    rows = fetch_station("DEBY115", "2026-10-25", "2026-10-25",
+                         lambda p: raw if p["component"] == 5 else {"data": {}})
+    assert [r["time"] for r in rows] == ["2026-10-25T02:00", "2026-10-25T02:00"]
+    assert any(i["check"] == "duplicate_time" for i in run_checks(rows, ["nitrogen_dioxide"]))
+    assert not run_checks(rows_for_checks(rows), ["nitrogen_dioxide"])
