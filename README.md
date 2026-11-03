@@ -19,7 +19,7 @@ It grew a second purpose. Cameras and lidar on outdoor robots, drones and cars g
 Every morning a GitHub Actions job:
 
 1. **Fetches** the latest hourly data for Munich from the free [Open-Meteo](https://open-meteo.com/) APIs: PM2.5, PM10, NO₂, ozone, temperature, humidity, wind, rain and visibility. These air-quality values come from the CAMS European model.
-2. **Fetches real measurements** from two stations in Bavaria's air monitoring network, through the [Umweltbundesamt](https://luftdaten.umweltbundesamt.de/en) API: München/Lothstraße (city background) and München/Landshuter Allee (one of Munich's busiest roads).
+2. **Fetches real measurements** from two stations in Bavaria's air monitoring network, through the [Umweltbundesamt](https://luftdaten.umweltbundesamt.de/en) API (v4): München/Lothstraße (city background) and München/Landshuter Allee (one of Munich's busiest roads).
 3. **Checks** every value before storing it:
    - **missing values**
    - **out-of-range values** (for example humidity above 100% or negative PM2.5)
@@ -54,7 +54,8 @@ flowchart LR
 
 - **PM2.5 above PM10.** On 1 and 2 Nov 2026, Lothstraße reported more PM2.5 than PM10 in 25 of 48 hours, up to 11 against 2 µg/m³. PM2.5 is part of PM10, so one of the two instruments is off. These hours are kept but marked, because a model trained on them would learn something that can't happen.
 - **Whole numbers repeat.** Stations report whole µg/m³, so at low levels the same value often repeats: Landshuter Allee showed PM2.5 = 8 for 7 hours in a row. The 6-hour stuck-sensor rule I wrote for the model would call that a frozen sensor. For stations it is 12 hours.
-- **Time zones.** The stations use German winter time (UTC+1) all year, while Open-Meteo uses Munich clock time. Both are converted before the hours are matched, and the station table keeps UTC as well.
+- **Time zones.** The stations use German winter time (UTC+1) all year, while Open-Meteo uses Munich clock time. The API's v4 notes say "CET or CEST", but the data doesn't follow that: both clock-change days have 24 hours, and 29 March has a 02:00 hour that doesn't exist on a German clock. A test pins this down. The station checks run on UTC, because on the night the clocks go back two real hours share one Munich label.
+- **The API is being retired under me.** The first live run lost one station because v3 of the UBA API already fails some requests on purpose before it is switched off in February 2027. The pipeline now uses v4, retries failed requests, and skips a station for the day rather than stopping.
 
 ## Look up the conditions at any time
 
@@ -92,7 +93,7 @@ releases/        monthly dataset exports
 
 ## Testing
 
-23 tests. They use real data: 48 hours from Open-Meteo and 48 hours from the two stations, captured from the APIs. The Open-Meteo sample is clean, so those tests break it on purpose (remove a value, push humidity to 140%, freeze the ozone sensor, delete three hours) and check that the right problem is caught. The station sample isn't clean, and the tests check that the real problems in it are found. Tests run on every push and before every daily run.
+24 tests. They use real data: 48 hours from Open-Meteo and 48 hours from the two stations, captured from the APIs. The Open-Meteo sample is clean, so those tests break it on purpose (remove a value, push humidity to 140%, freeze the ozone sensor, delete three hours) and check that the right problem is caught. The station sample isn't clean, and the tests check that the real problems in it are found. Tests run on every push and before every daily run.
 
 ```bash
 pip install -r requirements.txt
