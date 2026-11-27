@@ -132,5 +132,5 @@ Python · SQL (SQLite) · requests · pytest · GitHub Actions · GitHub Pages �
 
 ---
 
-Built by **Rafia Imran** · [GitHub profile](https://github.com/rafiasimran) · [Live CV](https://rafiaimran.cloud)
+
 Data: [Open-Meteo](https://open-meteo.com/), licensed CC BY 4.0 · Umweltbundesamt, with data from Bavaria's air monitoring network
